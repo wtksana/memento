@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:include="resources::header">
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">登录</h2>
+        <label for="username" class="sr-only">username</label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="用户名" required autofocus>
+        <label for="password" class="sr-only">password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="密码" required>
+        <div class="alert alert-danger" role="alert" id="msgTip" style="display: none;"></div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="loginFun()">登录</button>
+    </form>
+
+</div> <!-- /container -->
+
+<script>
+    function loginFun() {
+        $.ajax({
+            type: "post",
+            url: "/login",
+            dataType: 'json',
+            data: "username=" + $("#username").val() + "&password=" + $("#password").val(),
+            success: function (data) {
+                if (data.result) {
+                    if (document.all) {
+                        var gotoLink = document.createElement('a');
+                        gotoLink.href = "/home";
+                        document.body.appendChild(gotoLink);
+                        gotoLink.click();
+                    } else {
+                        window.location.href = "/home";
+                    }
+                } else {
+                    $("#msgTip").show().html(data.msg);
+                }
+            }
+        });
+    }
+    $(document).keydown(function (event) {
+        if (event.keyCode === 13) {
+            loginFun();
+        }
+    });
+</script>
+
+</body>
+</html>

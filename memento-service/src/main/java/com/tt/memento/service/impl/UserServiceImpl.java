@@ -26,4 +26,9 @@ public class UserServiceImpl implements UserService {
         }
         return ServerResponse.error("注册失败");
     }
+
+    @Override
+    public ServerResponse login(UserEntity userEntity) {
+        return null;
+    }
 }
