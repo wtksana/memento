@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head th:include="resources::header">
     <title>Document</title>
@@ -8,26 +8,28 @@
 
 <div class="container">
     <form class="form-signin">
-        <h2 class="form-signin-heading">登录</h2>
+        <h2 class="form-signin-heading">注册</h2>
+        <label for="mobile" class="sr-only">mobile</label>
+        <input type="text" name="mobile" id="mobile" class="form-control" placeholder="手机号" required autofocus>
         <label for="username" class="sr-only">username</label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="用户名" required autofocus>
+        <input type="text" name="username" id="username" class="form-control" placeholder="用户名" required>
         <label for="password" class="sr-only">password</label>
         <input type="password" name="password" id="password" class="form-control" placeholder="密码" required>
         <div class="alert alert-danger" role="alert" id="msgTip" style="display: none;"></div>
-        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="doLogin()">登录</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="doRegister()">注册</button>
     </form>
 
 </div> <!-- /container -->
 
 <script>
-    function doLogin() {
+    function doRegister() {
         $.ajax({
             type: "post",
-            url: "/doLogin",
+            url: "/doRegister",
             dataType: 'json',
-            data: "username=" + $("#username").val() + "&password=" + $("#password").val(),
+            data: "mobile=" + $("#mobile").val() + "&username=" + $("#username").val() + "&password=" + $("#password").val(),
             success: function (data) {
-                if (data.result) {
+                if (data.code === 0) {
                     if (document.all) {
                         var gotoLink = document.createElement('a');
                         gotoLink.href = "/home";
@@ -45,10 +47,9 @@
 
     $(document).keydown(function (event) {
         if (event.keyCode === 13) {
-            doLogin();
+            doRegister();
         }
     });
 </script>
-
 </body>
 </html>

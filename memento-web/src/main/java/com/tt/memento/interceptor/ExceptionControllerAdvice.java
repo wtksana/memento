@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.SQLException;
+
 /**
  * controller异常处理
  * date: 2017/12/27
@@ -23,6 +25,6 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler
     @ResponseBody
     public ServerResponse exceptionHandler(Exception e) {
-        return ServerResponse.error(e.getMessage());
+        return ServerResponse.error(e.getCause().getLocalizedMessage());
     }
 }

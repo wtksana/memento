@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         UserEntity operator = (UserEntity) request.getSession().getAttribute("user_session");

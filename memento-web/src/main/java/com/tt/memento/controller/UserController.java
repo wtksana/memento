@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
@@ -20,15 +21,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    @ResponseBody
-    public ServerResponse register(@Validated UserEntity userEntity) {
-        return userService.register(userEntity);
+    @RequestMapping("/register")
+    public String register() {
+        return "register";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/doRegister")
     @ResponseBody
-    public ServerResponse login(@Valid UserEntity userEntity) {
-        return userService.login(userEntity);
+    public ServerResponse doRegister(@Validated UserEntity userEntity) {
+        return userService.doRegister(userEntity);
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "index";
+    }
+
+    @PostMapping("/doLogin")
+    @ResponseBody
+    public ServerResponse doLogin(@Valid UserEntity userEntity) {
+        return userService.doLogin(userEntity);
     }
 }

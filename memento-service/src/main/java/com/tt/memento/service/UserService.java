@@ -8,7 +8,7 @@ import com.tt.memento.model.UserEntity;
  * author: wt
  */
 public interface UserService {
-    ServerResponse register(UserEntity userEntity);
-    ServerResponse login(UserEntity userEntity);
+    ServerResponse doRegister(UserEntity userEntity);
+    ServerResponse doLogin(UserEntity userEntity);
 
 }

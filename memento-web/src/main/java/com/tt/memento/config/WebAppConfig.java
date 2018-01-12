@@ -14,7 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private AuthInterceptor authInterceptor;
-    private static final String[] EXCLUDE_PATH_PATTERNS = {"/", "/login", "/register", "/error"};
+
+    private static final String[] EXCLUDE_PATH_PATTERNS = {"/", "/login", "/register", "/error", "/doLogin", "/doRegister"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
