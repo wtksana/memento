@@ -8,6 +8,10 @@ spring:
     cache: false
     prefix: classpath:/views/
     mode: LEGACYHTML5
+  redis:
+    host:
+    port:
+    password:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.tt.memento.entity

@@ -19,4 +19,11 @@ public interface UserEntityMapper {
 
     void batchUpdate(List<UserEntity> userEntityList);
 
+    UserEntity login(UserEntity userEntity);
+
+    int register(UserEntity userEntity);
+
+    int checkUsernameExists(String username);
+
+    int checkMobileExists(String mobile);
 }

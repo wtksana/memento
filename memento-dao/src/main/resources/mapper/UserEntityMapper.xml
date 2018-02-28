@@ -7,13 +7,21 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="deleteFlag" jdbcType="TINYINT" property="deleteFlag"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-            id,
-            username,
-            password,
-            mobile
+        id,
+        username,
+        password,
+        mobile,
+        status,
+        create_time,
+        update_time,
+        delete_flag
     </sql>
 
     <insert id="insert" parameterType="com.tt.memento.model.UserEntity">
@@ -21,13 +29,42 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into user (
-        <include refid="Base_Column_List"/>
+        id,
+        username,
+        password,
+        mobile,
+        status,
+        delete_flag
         )
         values (
-            #{id},
-            #{username},
-            #{password},
-            #{mobile}
+        #{id},
+        #{username},
+        #{password},
+        #{mobile},
+        #{status},
+        #{deleteFlag}
+        )
+    </insert>
+
+    <insert id="register" parameterType="com.tt.memento.model.UserEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into user (
+        id,
+        username,
+        password,
+        mobile,
+        status,
+        delete_flag
+        )
+        values (
+        #{id},
+        #{username},
+        #{password},
+        #{mobile},
+        0,
+        0
         )
     </insert>
 
@@ -44,14 +81,16 @@
             id = #{id},
             username = #{username},
             password = #{password},
-            mobile = #{mobile}
+            mobile = #{mobile},
+            status = #{status},
+            delete_flag = #{deleteFlag}
         </set>
         where id = #{id}
     </update>
 
     <delete id="delete">
-        delete from user
-        where id = #{id}
+        DELETE FROM user
+        WHERE id = #{id}
     </delete>
 
     <update id="updateSelective" parameterType="com.tt.memento.model.UserEntity">
@@ -67,7 +106,13 @@
                 password = #{password},
             </if>
             <if test="mobile != null">
-                mobile = #{mobile}
+                mobile = #{mobile},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag}
             </if>
         </set>
         where id = #{id}
@@ -80,10 +125,29 @@
                 id = #{item.id},
                 username = #{item.username},
                 password = #{item.password},
-                mobile = #{item.mobile}
+                mobile = #{item.mobile},
+                status = #{item.status},
+                delete_flag = #{item.deleteFlag}
             </set>
             where id = #{item.id}
         </foreach>
     </update>
+
+    <select id="login" resultMap="BaseResultMap" parameterType="com.tt.memento.model.UserEntity">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where mobile = #{mobile}
+        and password = #{password}
+        and delete_flag = 0
+        limit 1
+    </select>
+
+    <select id="checkUsernameExists" resultType="java.lang.Integer">
+        SELECT count(1) from user where username = #{username} and delete_flag = 0
+    </select>
+    <select id="checkMobileExists" resultType="java.lang.Integer">
+        SELECT count(1) from user where mobile = #{mobile} and delete_flag = 0
+    </select>
 
 </mapper>

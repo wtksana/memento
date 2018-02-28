@@ -18,8 +18,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        UserEntity operator = (UserEntity) request.getSession().getAttribute("user_session");
-        if (operator == null) {
+        UserEntity user = (UserEntity) request.getSession().getAttribute("user_session");
+        if (user == null) {
             String requestedWith = request.getHeader("x-requested-with");
             String loginUrl = "/login";
             // ajax请求
