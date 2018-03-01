@@ -46,26 +46,64 @@
         )
     </insert>
 
-    <insert id="register" parameterType="com.tt.memento.model.UserEntity">
+    <insert id="insertSelective" parameterType="com.tt.memento.model.UserEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into user (
-        id,
-        username,
-        password,
-        mobile,
-        status,
-        delete_flag
-        )
-        values (
-        #{id},
-        #{username},
-        #{password},
-        #{mobile},
-        0,
-        0
-        )
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag},
+            </if>
+        </trim>
     </insert>
 
     <select id="select" resultMap="BaseResultMap">

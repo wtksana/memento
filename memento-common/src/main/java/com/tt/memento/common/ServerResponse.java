@@ -13,8 +13,13 @@ import java.io.Serializable;
 public class ServerResponse<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * @see package com.tt.memento.common.ResponseCode
+     */
     private int code;
+
     private String msg;
+
     private T data;
 
     private ServerResponse() {

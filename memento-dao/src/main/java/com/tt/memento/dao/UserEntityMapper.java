@@ -9,6 +9,8 @@ public interface UserEntityMapper {
 
     int insert(UserEntity userEntity);
 
+    int insertSelective(UserEntity userEntity);
+
     UserEntity select(Long id);
 
     int update(UserEntity userEntity);
@@ -20,8 +22,6 @@ public interface UserEntityMapper {
     void batchUpdate(List<UserEntity> userEntityList);
 
     UserEntity login(UserEntity userEntity);
-
-    int register(UserEntity userEntity);
 
     int checkUsernameExists(String username);
 

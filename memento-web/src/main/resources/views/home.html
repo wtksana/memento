@@ -3,9 +3,72 @@
 <head th:include="resources::header">
     <title>Document</title>
 </head>
-<body>
+<body th:with="curPage='home'">
 <div th:replace="resources::navbar"></div>
 
-home
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label class="sr-only" for="content">content</label>
+            <textarea class="form-control" rows="3" id="content"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="publish()">submit</button>
+        </div>
+    </form>
+
+    <div class="alert alert-danger" role="alert" id="msgTip" style="display: none;"></div>
+
+    <div id="msgWall">
+
+    </div>
+
+</div> <!-- /container -->
+
+<script>
+    var pageNo = 1;
+
+    function getMsg(pageNo) {
+        $.ajax({
+            type: "post",
+            url: "/getRecentMsg",
+            dataType: 'json',
+            data: "pageNo=" + pageNo,
+            success: function (data) {
+                if (data.code === 0) {
+                    var html = "";
+                    var contents = data.data.data;
+                    if (contents != null) {
+                        for (var i = 0; i < contents.length; i++) {
+                            html += "<div class='well'>" + contents[i].content + "</div>";
+                        }
+                    }
+                    $("#msgWall").html(html);
+                } else {
+                    $("#msgTip").show().html(data.msg);
+                }
+            }
+        });
+    }
+
+    getMsg(1);
+
+    function publish() {
+        $.ajax({
+            type: "post",
+            url: "/publishMsg",
+            dataType: 'json',
+            data: "content=" + $('#content').val(),
+            success: function (data) {
+                if (data.code === 0) {
+                    $('#content').val('');
+                    getMsg(1);
+                } else {
+                    $("#msgTip").show().html(data.msg);
+                }
+            }
+        });
+    }
+</script>
 </body>
 </html>

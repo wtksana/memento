@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet">
+    <!--<link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet">-->
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <!-- jquery -->
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
@@ -29,9 +29,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <!--<li><a href="/user/listPage.html">用户</a></li>-->
-                    <!--<li><a href="/goods/listPage.html">商品</a></li>-->
-                    <!--<li><a href="/order/listPage.html">订单</a></li>-->
+                    <li th:class="${curPage=='home'}?'active':''"><a href="#">home</a></li>
+                    <li th:class="${curPage=='group'}?'active':''"><a href="#">group</a></li>
+                    <li th:class="${curPage=='explore'}?'active':''"><a href="#">explore</a></li>
                     <!--<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他<span class="caret"></span></a>
                         <ul class="dropdown-menu">

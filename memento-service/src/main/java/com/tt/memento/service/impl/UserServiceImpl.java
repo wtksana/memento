@@ -27,9 +27,9 @@ public class UserServiceImpl implements UserService {
         if (!check.isSuccess()) {
             return check;
         }
-        int count = userEntityMapper.register(userEntity);
+        int count = userEntityMapper.insertSelective(userEntity);
         if (count == 1) {
-            return ServerResponse.success("注册成功");
+            return ServerResponse.success("注册成功", userEntity);
         }
         return ServerResponse.error("注册失败");
     }
