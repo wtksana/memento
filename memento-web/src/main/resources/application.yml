@@ -2,18 +2,19 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
+    password: wt931201
     url: jdbc:mysql://localhost:3306/memento?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
   thymeleaf:
     cache: false
     prefix: classpath:/views/
     mode: LEGACYHTML5
   redis:
-    host:
-    port:
-    password:
+    host: 127.0.0.1
+    port: 6380
+    password: wt931201.
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.tt.memento.entity
-
-
+#logging:
+#  level:
+#    com.tt.memento.dao: trace

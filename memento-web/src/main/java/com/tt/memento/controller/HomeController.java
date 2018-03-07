@@ -1,5 +1,6 @@
 package com.tt.memento.controller;
 
+import com.tt.memento.model.UserEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -8,16 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * author: wt
  */
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 
     @RequestMapping("/")
     public String index() {
+        UserEntity userEntity = getSessionUser();
+        if (userEntity != null) {
+            return "redirect:/home";
+        }
         return "index";
     }
 
     @RequestMapping("/index")
     public String index1() {
-        return "index";
+        return "redirect:/";
     }
 
 

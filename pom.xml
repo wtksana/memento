@@ -11,10 +11,10 @@
     <description>memento</description>
 
     <modules>
+        <module>memento-common</module>
         <module>memento-model</module>
         <module>memento-dao</module>
         <module>memento-service</module>
-        <module>memento-common</module>
         <module>memento-web</module>
     </modules>
 
