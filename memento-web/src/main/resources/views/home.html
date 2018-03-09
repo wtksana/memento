@@ -27,23 +27,28 @@
 
 <script>
     var pageNo = 1;
+    var pageSize = 10;
 
-    function getMsg(pageNo) {
+    function getMsg() {
         $.ajax({
             type: "post",
             url: "/getRecentMsg",
             dataType: 'json',
-            data: "pageNo=" + pageNo,
+            data: "pageNo=" + pageNo + "&pageSize=" + pageSize,
             success: function (data) {
                 if (data.code === 0) {
                     var html = "";
                     var contents = data.data.data;
                     if (contents != null) {
                         for (var i = 0; i < contents.length; i++) {
-                            html += "<div class='well'>" + contents[i].content + "</div>";
+                            html = "<div class='well'>" + contents[i].content + "</div>";
+                            $("#msgWall").append(html);
+                        }
+                        if (contents.length < pageSize) {
+                            //说明是最后一页了 下拉加载功能可以关闭了
+                            pageNo = 0;
                         }
                     }
-                    $("#msgWall").html(html);
                 } else {
                     $("#msgTip").show().html(data.msg);
                 }
@@ -51,24 +56,41 @@
         });
     }
 
-    getMsg(1);
+    getMsg();
 
     function publish() {
+        var $content = $('#content');
         $.ajax({
             type: "post",
             url: "/publishMsg",
             dataType: 'json',
-            data: "content=" + $('#content').val(),
+            data: "content=" + $content.val(),
             success: function (data) {
                 if (data.code === 0) {
-                    $('#content').val('');
-                    getMsg(1);
+                    var html = "<div class='well'>" + $content.val() + "</div>";
+                    $content.val('');
+                    $("#msgWall").prepend(html);
                 } else {
                     $("#msgTip").show().html(data.msg);
                 }
             }
         });
     }
+
+    var $window = $(window);
+    var $document = $(document);
+
+    function onScroll() {
+        // 如果窗口底部小于1像素，就执行加载事件
+        var winHeight = window.innerHeight ? window.innerHeight : $window.height(); // iphone fix
+        var closeToBottom = ($window.scrollTop() + winHeight > $document.height() - 1);
+        if (closeToBottom && pageNo > 0) {
+            pageNo++;
+            getMsg();
+        }
+    }
+
+    $window.bind('scroll', onScroll);
 </script>
 </body>
 </html>
